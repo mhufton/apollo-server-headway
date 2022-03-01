@@ -2,48 +2,17 @@ const bcrypt = require("bcryptjs");
 
 const resolvers = {
   Query: {
-    async user(root, { id }, { models }) {
-      return models.User.findByPk(id);
-    },
-    async allRecipes(root, args, { models }) {
-      return models.Recipe.findAll();
-    },
-    async recipe(root, { id }, { models }) {
-      return models.Recipe.findByPk(id);
-    },
-    async allUsers(root, args, { models }) {
-      return models.User.findAll();
+    async allLinks(root, args, { models }) {
+      return models.url.findAll();
     }
-  },
-  Mutation: {
-    async createUser(root, { name, email, password }, { models }) {
-      return models.User.create({
-        name,
-        email,
-        password: await bcrypt.hash(password, 10)
-      });
-    },
-    async createRecipe(
-      root,
-      { userId, title, ingredients, direction },
-      { models }
-    ) {
-      return models.Recipe.create({
-        userId,
-        title,
-        ingredients,
-        direction
-      });
+    async getLink(root, { url }, { models }) {
+      return models.url.fineOne(url);
     }
-  },
-  User: {
-    async recipes(user) {
-      return user.getRecipes();
+    async allSlugs(root, args { models }) {
+      return models.slug.findAll();
     }
-  },
-  Recipe: {
-    async user(recipe) {
-      return recipe.getUser();
+    async getSlug(root, { slug }, { models }) {
+      return models.slug.findOne(slug)
     }
   }
 };
